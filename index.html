@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INFINITE College Club</title>
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: linear-gradient(270deg, #0d0d2b, #121240, #0d0d2b);
+      background-size: 600% 600%;
+      animation: gradientBG 20s ease infinite;
+      color: #f0f0f5;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    a {
+      color: #00d8ff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #00a8cc;
+      text-decoration: underline;
+    }
+    header {
+      background: #121240cc;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid #00d8ff;
+      backdrop-filter: saturate(180%) blur(10px);
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: slideDownFadeIn 1s forwards;
+    }
+    @keyframes slideDownFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 3px;
+      font-size: 1.8rem;
+      color: #00d8ff;
+      text-shadow: 0 0 8px #00d8ffaa;
+      cursor: default;
+    }
+    nav a {
+      margin-left: 1.5rem;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 3px;
+      transition: color 0.3s ease;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #00d8ff;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    nav a:first-child {
+      margin-left: 0;
+    }
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    section {
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      color: #00d8ff;
+      border-bottom: 2px solid #00d8ff;
+      padding-bottom: 0.3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 6px #00d8ffaa;
+    }
+    /* Club Info */
+    #about p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      text-shadow: 0 0 3px #00000055;
+    }
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 1rem;
+    }
+    .gallery img, .gallery video {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #00d8ff88;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform;
+    }
+    .gallery img:hover, .gallery video:hover {
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 0 20px #00d8ffcc;
+    }
+    /* Event Calendar */
+    #events ul {
+      list-style: none;
+      padding: 0;
+      max-width: 700px;
+    }
+    #events li {
+      background: #121240cc;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #00d8ff88;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    #events li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #00d8ffcc;
+    }
+    #events li strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+      color: #00eaff;
+      text-shadow: 0 0 6px #00d8ffbb;
+    }
+    /* Registration Form */
+    form {
+      background: #121240cc;
+      padding: 1rem 1.5rem;
+      max-width: 700px;
+      border-radius: 8px;
+      box-shadow: 0 0 14px #00d8ffaa;
+      backdrop-filter: saturate(180%) blur(10px);
+      transition: box-shadow 0.3s ease;
+    }
+    form:hover {
+      box-shadow: 0 0 24px #00d8ffdd;
+    }
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #00d8ff;
+      text-shadow: 0 0 4px #00d8ffbb;
+    }
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: box-shadow 0.3s ease;
+    }
+    form input:focus, form select:focus, form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 8px #00d8ffcc;
+      background: #1a1a4d;
+      color: #e0f7ff;
+    }
+    form button {
+      margin-top: 1.5rem;
+      background: #00d8ff;
+      color: #121240;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 0 10px #00d8ffbb;
+    }
+    form button:hover {
+      background: #00a8cc;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00a8ccdd;
+    }
+    /* Footer */
+    footer {
+      background: #121240cc;
+      color: #8888aa;
+      text-align: center;
+      padding: 1rem 1rem;
+      font-size: 0.9rem;
+      border-top: 2px solid #00d8ff;
+      user-select: none;
+      text-shadow: 0 0 3px #00000055;
+    }
+    /* Responsive Nav */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 0.5rem;
+      }
+      nav a {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>INFINITE</h1>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <!-- About Section -->
+  <section id="about" class="fade-in-section">
+    <h2>About INFINITE</h2>
+    <p>
+      Welcome to INFINITE, the premier college club dedicated to fostering creativity, innovation, and community among students.  
+      We organize exciting events, workshops, and social gatherings to help you grow your skills and make lifelong friends.  
+      Join us and be part of something limitless!
+    </p>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="fade-in-section">
+    <h2>Event Gallery</h2>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Club Event 1" />
+      <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="Club Event 2" />
+      <video controls poster="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80">
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80" alt="Club Event 3" />
+    </div>
+  </section>
+
+  <!-- Events Section -->
+  <section id="events" class="fade-in-section">
+    <h2>Upcoming Events</h2>
+    <ul>
+      <li>
+        <strong>Tech Talk: The Future of AI</strong>
+        <span>Date: June 20, 2025</span><br />
+        <span>Location: College Auditorium</span><br />
+        <p>Join us for an insightful talk on artificial intelligence and its impact on society.</p>
+      </li>
+      <li>
+        <strong>Annual Cultural Fest</strong>
+        <span>Date: August 15, 2025</span><br />
+        <span>Location: College Grounds</span><br />
+        <p>Celebrate diversity and talent with performances, food stalls, and fun activities.</p>
+      </li>
+    </ul>
+
+    <h3>Register for Upcoming Events</h3>
+    <form id="eventRegistration" onsubmit="return handleFormSubmit(event)">
+      <label for="name">Full Name *</label>
+      <input type="text" id="name" name="name" required placeholder="Your full name" />
+
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" name="email" required placeholder="your.email@example.com" />
+
+      <label for="eventSelect">Select Event *</label>
+      <select id="eventSelect" name="eventSelect" required>
+        <option value="" disabled selected>Select an event</option>
+        <option value="Tech Talk: The Future of AI">Tech Talk: The Future of AI - June 20, 2025</option>
+        <option value="Annual Cultural Fest">Annual Cultural Fest - August 15, 2025</option>
+      </select>
+
+      <label for="comments">Additional Comments</label>
+      <textarea id="comments" name="comments" rows="3" placeholder="Any special requirements or questions"></textarea>
+
+      <button type="submit">Submit Registration</button>
+    </form>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="fade-in-section">
+    <h2>Contact Us</h2>
+    <p>Email: <a href="mailto:infiniteclub@college.edu">infiniteclub@college.edu</a></p>
+    <p>Phone: +91 98765 43210</p>
+    <p>Follow us on: 
+      <a href="https://facebook.com/infiniteclub" target="_blank" rel="noopener">Facebook</a> | 
+      <a href="https://instagram.com/infiniteclub" target="_blank" rel="noopener">Instagram</a> | 
+      <a href="https://twitter.com/infiniteclub" target="_blank" rel="noopener">Twitter</a>
+    </p>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 INFINITE College Club. All rights reserved.
+</footer>
+
+<script>
+  // Intersection Observer for fade-in on scroll
+  document.addEventListener('DOMContentLoaded', () => {
+    const faders = document.querySelectorAll('.fade-in-section');
+    const options = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        appearOnScroll.unobserve(entry.target);
+      });
+    }, options);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+  });
+
+  // Simple form submission handler (replace with backend integration)
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const eventSelected = form.eventSelect.value;
+    
+    if (!name || !email || !eventSelected) {
+      alert('Please fill all required fields.');
+      return false;
+    }
+    
+    alert(`Thank you, ${name}! Your registration for "${eventSelected}" has been received.`);
+    form.reset();
+    return false;
+  }
+</script>
+
+</body>
+</html>
