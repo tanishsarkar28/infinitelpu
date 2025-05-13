@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>INFINITE College Club</title>
   <style>
+    /* CSS Variables for theme colors */
+    :root {
+      --bg-gradient: linear-gradient(270deg, #0d0d2b, #121240, #0d0d2b);
+      --text-color: #f0f0f5;
+      --text-shadow: 0 0 3px #00000055;
+      --link-color: #00d8ff;
+      --link-hover-color: #00a8cc;
+      --section-bg: #121240cc;
+      --section-shadow: 0 0 20px #00d8ff88;
+      --form-bg: #121240cc;
+      --form-text-color: #e0f7ff;
+      --form-input-bg: #1a1a4d;
+      --form-input-focus-bg: #002b55;
+      --footer-bg: #121240cc;
+      --footer-text-color: #8888aa;
+    }
+
+    body.light-mode {
+      --bg-gradient: #f0f5ff;
+      --text-color: #121240;
+      --text-shadow: none;
+      --link-color: #0066cc;
+      --link-hover-color: #004499;
+      --section-bg: #e0e8ffcc;
+      --section-shadow: 0 0 14px #0066ccaa;
+      --form-bg: #e0e8ffcc;
+      --form-text-color: #121240;
+      --form-input-bg: #ffffff;
+      --form-input-focus-bg: #d0e0ff;
+      --footer-bg: #e0e8ffcc;
+      --footer-text-color: #444466;
+    }
+
     /* Reset & base */
     * {
       box-sizing: border-box;
@@ -12,29 +45,137 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background: linear-gradient(270deg, #0d0d2b, #121240, #0d0d2b);
-      background-size: 600% 600%;
-      animation: gradientBG 20s ease infinite;
-      color: #f0f0f5;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      text-shadow: var(--text-shadow);
       line-height: 1.6;
       overflow-x: hidden;
-    }
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+      scroll-behavior: smooth;
+      position: relative;
+      min-height: 100vh;
+      transition: background 0.5s ease, color 0.5s ease;
     }
     a {
-      color: #00d8ff;
+      color: var(--link-color);
       text-decoration: none;
       transition: color 0.3s ease;
     }
     a:hover {
-      color: #00a8cc;
+      color: var(--link-hover-color);
       text-decoration: underline;
     }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #121240;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+      visibility: visible;
+      opacity: 1;
+    }
+    #loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .infinity-loader {
+      position: relative;
+      width: 80px;
+      height: 40px;
+    }
+    /* The infinity path */
+    .infinity-path {
+      position: absolute;
+      width: 80px;
+      height: 40px;
+      border: 2px solid var(--link-color);
+      border-radius: 40px / 20px;
+      box-sizing: border-box;
+      opacity: 0.3;
+      filter: drop-shadow(0 0 4px var(--link-color));
+    }
+    /* The moving dot */
+    .dot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: var(--link-color);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--link-color);
+      top: 12px;
+      left: 0;
+      transform-origin: 40px 20px;
+      animation: moveInfinity 3.6s linear infinite;
+    }
+
+    @keyframes moveInfinity {
+      0% {
+        transform: rotate(0deg) translateX(40px) rotate(0deg);
+      }
+      50% {
+        transform: rotate(180deg) translateX(40px) rotate(-180deg);
+      }
+      100% {
+        transform: rotate(360deg) translateX(40px) rotate(-360deg);
+      }
+    }
+
+    /* Floating shapes background */
+    .floating-shapes {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+      background: linear-gradient(135deg, var(--link-color), #004466);
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+    .shape1 {
+      width: 120px; height: 120px;
+      top: 10%; left: 15%;
+      animation-name: float1;
+      animation-duration: 8s;
+    }
+    .shape2 {
+      width: 80px; height: 80px;
+      top: 40%; left: 75%;
+      animation-name: float2;
+      animation-duration: 12s;
+    }
+    .shape3 {
+      width: 150px; height: 150px;
+      top: 70%; left: 30%;
+      animation-name: float3;
+      animation-duration: 10s;
+    }
+    @keyframes float1 {
+      0% {transform: translateY(0) translateX(0);}
+      100% {transform: translateY(-20px) translateX(15px);}
+    }
+    @keyframes float2 {
+      0% {transform: translateY(0) translateX(0);}
+      100% {transform: translateY(25px) translateX(-20px);}
+    }
+    @keyframes float3 {
+      0% {transform: translateY(0) translateX(0);}
+      100% {transform: translateY(-15px) translateX(10px);}
+    }
+
+    /* Header */
     header {
-      background: #121240cc;
+      background: var(--section-bg);
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
@@ -42,11 +183,12 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 2px solid #00d8ff;
+      border-bottom: 2px solid var(--link-color);
       backdrop-filter: saturate(180%) blur(10px);
       opacity: 0;
       transform: translateY(-20px);
       animation: slideDownFadeIn 1s forwards;
+      transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
     }
     @keyframes slideDownFadeIn {
       to {
@@ -56,12 +198,19 @@
     }
     header h1 {
       margin: 0;
-      font-weight: 700;
-      letter-spacing: 3px;
-      font-size: 1.8rem;
-      color: #00d8ff;
-      text-shadow: 0 0 8px #00d8ffaa;
+      font-weight: 900;
+      letter-spacing: 6px;
+      font-size: 2rem;
+      background: linear-gradient(90deg, var(--link-color), #00ffa1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       cursor: default;
+      user-select: none;
+      text-shadow: 0 0 8px var(--link-color);
+    }
+    nav {
+      display: flex;
+      align-items: center;
     }
     nav a {
       margin-left: 1.5rem;
@@ -69,6 +218,7 @@
       position: relative;
       padding-bottom: 3px;
       transition: color 0.3s ease;
+      color: var(--link-color);
     }
     nav a::after {
       content: '';
@@ -77,9 +227,12 @@
       height: 2px;
       bottom: 0;
       left: 0;
-      background-color: #00d8ff;
+      background-color: var(--link-color);
       transition: width 0.3s ease;
       border-radius: 2px;
+    }
+    nav a:hover {
+      color: var(--link-hover-color);
     }
     nav a:hover::after {
       width: 100%;
@@ -87,144 +240,20 @@
     nav a:first-child {
       margin-left: 0;
     }
-    main {
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    #theme-toggle {
+      background:none;
+      border:none;
+      cursor:pointer;
+      color: var(--link-color);
+      font-weight:bold;
+      font-size:1.3rem;
+      margin-left:1.5rem;
+      user-select:none;
+      transition: color 0.3s ease;
     }
-    section {
-      margin-bottom: 3rem;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+    #theme-toggle:hover {
+      color: var(--link-hover-color);
     }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    h2 {
-      color: #00d8ff;
-      border-bottom: 2px solid #00d8ff;
-      padding-bottom: 0.3rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 6px #00d8ffaa;
-    }
-    /* Club Info */
-    #about p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      text-shadow: 0 0 3px #00000055;
-    }
-    /* Gallery */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-      gap: 1rem;
-    }
-    .gallery img, .gallery video {
-      width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 0 12px #00d8ff88;
-      object-fit: cover;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      will-change: transform;
-    }
-    .gallery img:hover, .gallery video:hover {
-      transform: scale(1.05) rotate(1deg);
-      box-shadow: 0 0 20px #00d8ffcc;
-    }
-    /* Event Calendar */
-    #events ul {
-      list-style: none;
-      padding: 0;
-      max-width: 700px;
-    }
-    #events li {
-      background: #121240cc;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 12px #00d8ff88;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: default;
-    }
-    #events li:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px #00d8ffcc;
-    }
-    #events li strong {
-      display: block;
-      font-size: 1.1rem;
-      margin-bottom: 0.3rem;
-      color: #00eaff;
-      text-shadow: 0 0 6px #00d8ffbb;
-    }
-    /* Registration Form */
-    form {
-      background: #121240cc;
-      padding: 1rem 1.5rem;
-      max-width: 700px;
-      border-radius: 8px;
-      box-shadow: 0 0 14px #00d8ffaa;
-      backdrop-filter: saturate(180%) blur(10px);
-      transition: box-shadow 0.3s ease;
-    }
-    form:hover {
-      box-shadow: 0 0 24px #00d8ffdd;
-    }
-    form label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 600;
-      color: #00d8ff;
-      text-shadow: 0 0 4px #00d8ffbb;
-    }
-    form input, form select, form textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.3rem;
-      border: none;
-      border-radius: 4px;
-      font-size: 1rem;
-      transition: box-shadow 0.3s ease;
-    }
-    form input:focus, form select:focus, form textarea:focus {
-      outline: none;
-      box-shadow: 0 0 8px #00d8ffcc;
-      background: #1a1a4d;
-      color: #e0f7ff;
-    }
-    form button {
-      margin-top: 1.5rem;
-      background: #00d8ff;
-      color: #121240;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 0 10px #00d8ffbb;
-    }
-    form button:hover {
-      background: #00a8cc;
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #00a8ccdd;
-    }
-    /* Footer */
-    footer {
-      background: #121240cc;
-      color: #8888aa;
-      text-align: center;
-      padding: 1rem 1rem;
-      font-size: 0.9rem;
-      border-top: 2px solid #00d8ff;
-      user-select: none;
-      text-shadow: 0 0 3px #00000055;
-    }
-    /* Responsive Nav */
     @media (max-width: 600px) {
       header {
         flex-direction: column;
@@ -237,10 +266,426 @@
         margin-left: 0;
         margin-right: 1rem;
       }
+      #theme-toggle {
+        margin-left: 0;
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 3rem;
+      z-index: 1;
+      padding: 0 1rem;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 216, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      pointer-events: none;
+      z-index: -1;
+      animation: pulseGlow 3s infinite alternate ease-in-out;
+    }
+    @keyframes pulseGlow {
+      0% {box-shadow: 0 0 20px 5px rgba(0, 216, 255, 0.3);}
+      100% {box-shadow: 0 0 40px 15px rgba(0, 216, 255, 0.6);}
+    }
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin: 0;
+      background: linear-gradient(90deg, var(--link-color), #00ffa1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 8px;
+      text-shadow: 0 0 12px var(--link-color);
+      animation: flickerText 3s infinite alternate;
+    }
+    @keyframes flickerText {
+      0%, 100% {opacity: 1;}
+      50% {opacity: 0.8;}
+    }
+    /* Typing effect text */
+    #typed-text {
+      font-size: 1.25rem;
+      color: #00ffa1;
+      font-weight: 600;
+      min-height: 1.5em;
+      border-right: 2px solid #00ffa1;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      margin-top: 0.5rem;
+      max-width: 600px;
+      animation: blink 0.7s step-end infinite;
+      transition: color 0.5s ease;
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    /* Main container */
+    main {
+      max-width: 1000px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Countdown Timer */
+    #countdown {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #00ffa1;
+      margin-bottom: 3rem;
+      text-shadow: 0 0 6px #000000aa;
+      transition: color 0.5s ease;
+    }
+
+    /* Section styling */
+    section {
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      position: relative;
+      z-index: 1;
+      background: var(--section-bg);
+      box-shadow: var(--section-shadow);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      color: var(--text-color);
+      text-shadow: var(--text-shadow);
+      transition: background 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      color: var(--link-color);
+      border-bottom: 2px solid var(--link-color);
+      padding-bottom: 0.3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 6px var(--link-color);
+      font-weight: 700;
+      font-size: 2rem;
+      transition: color 0.5s ease, border-color 0.5s ease, text-shadow 0.5s ease;
+    }
+
+    /* Section separators (SVG waves) */
+    .section-separator {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 3rem;
+      overflow: hidden;
+      line-height: 0;
+      transform: translateY(20px);
+    }
+    .section-separator svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 60px;
+    }
+    .section-separator .shape-fill {
+      fill: var(--section-bg);
+      opacity: 0.8;
+      transition: fill 0.5s ease;
+    }
+
+    /* Club Info */
+    #about p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      text-shadow: var(--text-shadow);
+      color: var(--text-color);
+      transition: color 0.5s ease, text-shadow 0.5s ease;
+    }
+
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 1rem;
+    }
+    .gallery img, .gallery video {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: var(--section-shadow);
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      will-change: transform;
+      border: 2px solid transparent;
+    }
+    .gallery img:hover, .gallery video:hover {
+      transform: scale(1.07) rotate(1deg);
+      box-shadow: 0 0 30px var(--link-color);
+      border-color: var(--link-color);
+    }
+
+    /* Event Calendar */
+    #events ul {
+      list-style: none;
+      padding: 0;
+      max-width: 700px;
+      color: var(--text-color);
+      text-shadow: var(--text-shadow);
+      transition: color 0.5s ease, text-shadow 0.5s ease;
+    }
+    #events li {
+      background: var(--section-bg);
+      margin-bottom: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: var(--section-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      color: var(--text-color);
+      text-shadow: var(--text-shadow);
+    }
+    #events li:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 40px var(--link-color);
+    }
+    #events li strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      color: var(--link-color);
+      text-shadow: 0 0 8px var(--link-color);
+      transition: color 0.5s ease, text-shadow 0.5s ease;
+    }
+
+    /* Registration Form */
+    form {
+      background: var(--form-bg);
+      color: var(--form-text-color);
+      border-radius: 12px;
+      box-shadow: var(--section-shadow);
+      backdrop-filter: saturate(180%) blur(12px);
+      transition: box-shadow 0.3s ease, background 0.5s ease, color 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      max-width: 700px;
+      padding: 1rem 2rem;
+    }
+    form:hover {
+      box-shadow: 0 0 48px var(--link-color);
+    }
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 700;
+      color: var(--link-color);
+      text-shadow: 0 0 6px var(--link-color);
+      transition: color 0.5s ease, text-shadow 0.5s ease;
+    }
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      margin-top: 0.3rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: box-shadow 0.3s ease, background 0.3s ease, color 0.5s ease;
+      background: var(--form-input-bg);
+      color: var(--form-text-color);
+      box-shadow: inset 0 0 5px #004466aa;
+      resize: vertical;
+    }
+    form input:focus, form select:focus, form textarea:focus {
+      outline: none;
+      background: var(--form-input-focus-bg);
+      box-shadow: 0 0 12px var(--link-color);
+      color: var(--form-text-color);
+    }
+    form button {
+      margin-top: 1.8rem;
+      background: linear-gradient(90deg, var(--link-color), #00ffa1);
+      color: #121240;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-weight: 900;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.4s ease, transform 0.3s ease;
+      box-shadow: 0 0 16px var(--link-color);
+      overflow: hidden;
+      position: relative;
+      user-select: none;
+    }
+    form button::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%) scale(0);
+      border-radius: 50%;
+      transition: transform 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    form button:focus::after,
+    form button:hover::after {
+      transform: translate(-50%, -50%) scale(2);
+    }
+    form button:hover {
+      background: linear-gradient(90deg, #00ffa1, var(--link-color));
+      transform: scale(1.05);
+      box-shadow: 0 0 28px #00ffa1dd;
+    }
+
+    /* Contact Section */
+    #contact p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      color: var(--text-color);
+      text-shadow: var(--text-shadow);
+      transition: color 0.5s ease, text-shadow 0.5s ease;
+    }
+    #contact a {
+      font-weight: 700;
+      color: var(--link-color);
+      transition: color 0.3s ease;
+    }
+    #contact a:hover {
+      color: var(--link-hover-color);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text-color);
+      text-align: center;
+      padding: 1rem 1rem;
+      font-size: 0.9rem;
+      border-top: 2px solid var(--link-color);
+      user-select: none;
+      text-shadow: var(--text-shadow);
+      position: relative;
+      z-index: 1;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+      header h1 {
+        font-size: 1.5rem;
+      }
+      main {
+        margin-bottom: 6rem;
+      }
+    }
+
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--link-color);
+      color: #121240;
+      border: none;
+      padding: 0.8rem 1rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--link-color);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      z-index: 150;
+      user-select: none;
+    }
+    #backToTop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    #backToTop:hover {
+      background: #00ffa1;
+      box-shadow: 0 0 30px #00ffa1cc;
+    }
+
+    /* Modal Lightbox Gallery */
+    #modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 200;
+    }
+    #modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    #modal img, #modal video {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 40px var(--link-color);
+      background: black;
+    }
+    #modal video {
+      outline: none;
+    }
+    #modal .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2.5rem;
+      color: var(--link-color);
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+      font-weight: 900;
+      text-shadow: 0 0 10px var(--link-color);
+    }
+    #modal .close-btn:hover {
+      color: #00ffa1;
     }
   </style>
 </head>
 <body>
+
+<!-- Loading Screen -->
+<div id="loading-screen" role="alert" aria-live="assertive" aria-label="Loading content">
+  <div class="infinity-loader" aria-hidden="true">
+    <div class="infinity-path"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+
+<!-- Floating animated shapes -->
+<div class="floating-shapes" aria-hidden="true">
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+  <div class="shape shape3"></div>
+</div>
 
 <header>
   <h1>INFINITE</h1>
@@ -249,12 +694,24 @@
     <a href="#gallery">Gallery</a>
     <a href="#events">Events</a>
     <a href="#contact">Contact</a>
+    <button id="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">🌙</button>
   </nav>
 </header>
 
+<!-- Hero Section -->
+<section class="hero" aria-label="Introduction">
+  <h2>INFINITE</h2>
+  <p id="typed-text" aria-live="polite"></p>
+</section>
+
 <main>
+  <!-- Countdown Timer -->
+  <section id="countdown" class="fade-in-section" tabindex="0" aria-label="Countdown to next event">
+    Next Event Starts In: <span id="countdown-timer">Loading...</span>
+  </section>
+
   <!-- About Section -->
-  <section id="about" class="fade-in-section">
+  <section id="about" class="fade-in-section" tabindex="0">
     <h2>About INFINITE</h2>
     <p>
       Welcome to INFINITE, the premier college club dedicated to fostering creativity, innovation, and community among students.  
@@ -263,22 +720,34 @@
     </p>
   </section>
 
+  <div class="section-separator" aria-hidden="true">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0,0 C300,40 900,0 1200,40 L1200,60 L0,60 Z" class="shape-fill"></path>
+    </svg>
+  </div>
+
   <!-- Gallery Section -->
-  <section id="gallery" class="fade-in-section">
+  <section id="gallery" class="fade-in-section" tabindex="0">
     <h2>Event Gallery</h2>
-    <div class="gallery">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Club Event 1" />
-      <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="Club Event 2" />
-      <video controls poster="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80">
+    <div class="gallery" role="list">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Club Event 1" role="listitem" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="Club Event 2" role="listitem" tabindex="0" />
+      <video controls poster="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" role="listitem" tabindex="0" aria-label="Club Event Video">
         <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
-      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80" alt="Club Event 3" />
+      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80" alt="Club Event 3" role="listitem" tabindex="0" />
     </div>
   </section>
 
+  <div class="section-separator" aria-hidden="true" style="transform: rotate(180deg) translateY(-20px); margin-top: -4rem; margin-bottom: 4rem;">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0,0 C300,40 900,0 1200,40 L1200,60 L0,60 Z" class="shape-fill"></path>
+    </svg>
+  </div>
+
   <!-- Events Section -->
-  <section id="events" class="fade-in-section">
+  <section id="events" class="fade-in-section" tabindex="0">
     <h2>Upcoming Events</h2>
     <ul>
       <li>
@@ -296,7 +765,7 @@
     </ul>
 
     <h3>Register for Upcoming Events</h3>
-    <form id="eventRegistration" onsubmit="return handleFormSubmit(event)">
+    <form id="eventRegistration" onsubmit="return handleFormSubmit(event)" aria-label="Event Registration Form">
       <label for="name">Full Name *</label>
       <input type="text" id="name" name="name" required placeholder="Your full name" />
 
@@ -317,8 +786,14 @@
     </form>
   </section>
 
+  <div class="section-separator" aria-hidden="true">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0,0 C300,40 900,0 1200,40 L1200,60 L0,60 Z" class="shape-fill"></path>
+    </svg>
+  </div>
+
   <!-- Contact Section -->
-  <section id="contact" class="fade-in-section">
+  <section id="contact" class="fade-in-section" tabindex="0">
     <h2>Contact Us</h2>
     <p>Email: <a href="mailto:infiniteclub@college.edu">infiniteclub@college.edu</a></p>
     <p>Phone: +91 98765 43210</p>
@@ -334,7 +809,23 @@
   &copy; 2025 INFINITE College Club. All rights reserved.
 </footer>
 
+<!-- Back to Top Button -->
+<button id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- Modal Lightbox -->
+<div id="modal" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
+  <span class="close-btn" role="button" aria-label="Close modal" tabindex="0">&times;</span>
+  <img alt="" />
+  <video controls tabindex="0" style="display:none;"></video>
+</div>
+
 <script>
+  // Hide loading screen when page fully loaded
+  window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.classList.add('hidden');
+  });
+
   // Intersection Observer for fade-in on scroll
   document.addEventListener('DOMContentLoaded', () => {
     const faders = document.querySelectorAll('.fade-in-section');
@@ -373,6 +864,137 @@
     form.reset();
     return false;
   }
+
+  // Back to Top Button
+  const backToTopBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
+  });
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  // Modal Lightbox Gallery
+  const modal = document.getElementById('modal');
+  const modalImg = modal.querySelector('img');
+  const modalVideo = modal.querySelector('video');
+  const closeBtn = modal.querySelector('.close-btn');
+
+  // Open modal on gallery item click or keyboard Enter
+  document.querySelectorAll('.gallery img, .gallery video').forEach(item => {
+    item.addEventListener('click', () => openModal(item));
+    item.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(item);
+      }
+    });
+  });
+
+  function openModal(item) {
+    if (item.tagName.toLowerCase() === 'img') {
+      modalImg.src = item.src;
+      modalImg.alt = item.alt || 'Gallery image';
+      modalImg.style.display = 'block';
+      modalVideo.style.display = 'none';
+      modalVideo.pause();
+      modalVideo.src = '';
+    } else if (item.tagName.toLowerCase() === 'video') {
+      modalVideo.src = item.querySelector('source').src;
+      modalVideo.style.display = 'block';
+      modalImg.style.display = 'none';
+      modalVideo.play();
+    }
+    modal.setAttribute('aria-hidden', 'false');
+    modal.classList.add('show');
+    modal.focus();
+  }
+
+  // Close modal
+  function closeModal() {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    modalVideo.pause();
+  }
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+  modal.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Typing animation for hero tagline
+  const phrases = [
+    "Where creativity meets endless possibilities",
+    "Innovate. Inspire. Infinite.",
+    "Join the journey beyond limits"
+  ];
+  const typedText = document.getElementById('typed-text');
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let typingSpeed = 80;
+  let deletingSpeed = 40;
+  let pauseBetween = 2000;
+
+  function type() {
+    if (charIndex < phrases[phraseIndex].length) {
+      typedText.textContent += phrases[phraseIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(type, typingSpeed);
+    } else {
+      setTimeout(deleteText, pauseBetween);
+    }
+  }
+  function deleteText() {
+    if (charIndex > 0) {
+      typedText.textContent = phrases[phraseIndex].substring(0, charIndex - 1);
+      charIndex--;
+      setTimeout(deleteText, deletingSpeed);
+    } else {
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      setTimeout(type, typingSpeed);
+    }
+  }
+  type();
+
+  // Dark/Light mode toggle
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    if(document.body.classList.contains('light-mode')) {
+      themeToggleBtn.textContent = '🌞';
+    } else {
+      themeToggleBtn.textContent = '🌙';
+    }
+  });
+
+  // Countdown Timer
+  const countdownTimer = document.getElementById('countdown-timer');
+  // Set your next event date here (YYYY-MM-DD HH:MM:SS)
+  const nextEventDate = new Date('2025-06-20T10:00:00');
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = nextEventDate - now;
+    if(diff <= 0) {
+      countdownTimer.textContent = "The event is live now!";
+      clearInterval(countdownInterval);
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    countdownTimer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+  updateCountdown();
+  const countdownInterval = setInterval(updateCountdown, 1000);
 </script>
 
 </body>
